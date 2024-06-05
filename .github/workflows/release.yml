@@ -24,10 +24,10 @@ jobs:
         pip install pyinstaller
 
     - name: Build binary
-      run: pyinstaller --onefile hello.py
+      run: pyinstaller --onefile main.py
 
     - name: Archive binary
-      run: zip -j hello.zip dist/hello
+      run: zip -j main.zip dist/main
 
     - name: Create Release
       id: create_release
@@ -47,6 +47,6 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./hello.zip
-        asset_name: hello.zip
+        asset_path: ./main.zip
+        asset_name: main.zip
         asset_content_type: application/zip
