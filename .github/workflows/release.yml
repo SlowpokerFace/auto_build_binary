@@ -29,14 +29,18 @@ jobs:
     - name: Archive binary
       run: zip -j setup.zip dist/setup
 
+    - name: Get commit hash
+      id: get_commit_hash
+      run: echo ::set-output name=COMMIT_HASH::$(git rev-parse --short HEAD)
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.get_commit_hash.outputs.COMMIT_HASH }}
+        release_name: Release ${{ steps.get_commit_hash.outputs.COMMIT_HASH }}
         draft: false
         prerelease: false
         body: |
