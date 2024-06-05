@@ -1,4 +1,4 @@
-name: Build and Release
+name: devops
 
 on:
   push:
@@ -14,30 +14,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: code
       uses: actions/checkout@v2
 
-    - name: Set up Python
+    - name: Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.10' 
 
-    - name: Install dependencies
+    - name: dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Build project
+    - name: Build
       run: |
         python -m compileall .
 
-    - name: Archive .pyc files
+    - name: Archive files
       run: |
           mkdir pyc-files
           mv **/*.pyc pyc-files
           zip -r pyc-files.zip pyc-files
 
-    - name: Create Release
+    - name: Release
       id: create_release
       uses: actions/create-release@v1
       env:
@@ -48,7 +48,7 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload release asset
+    - name: Upload release 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
